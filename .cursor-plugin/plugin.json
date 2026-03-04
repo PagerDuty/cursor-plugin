@@ -1,13 +1,19 @@
 {
   "name": "pagerduty",
+  "displayName": "PagerDuty",
   "version": "1.0.0",
-  "description": "PagerDuty MCP server for Cursor - manage incidents, services, schedules, on-call, and more directly from your IDE",
+  "description": "PagerDuty MCP server for Cursor - manage incidents, services, schedules, on-call, and more directly from your IDE.",
   "author": {
     "name": "PagerDuty",
-    "email": "dev-platform@pagerduty.com",
-    "url": "https://www.pagerduty.com"
+    "email": "dev-platform@pagerduty.com"
   },
-  "keywords": ["pagerduty", "incidents", "oncall", "mcp", "incident-management", "observability"],
+  "publisher": "PagerDuty",
+  "homepage": "https://developer.pagerduty.com/docs/mcp-tooling-remote-server",
+  "repository": "https://github.com/PagerDuty/cursor-plugin",
+  "license": "Apache-2.0",
   "logo": "logo.svg",
-  "primaryColor": "#06AC38"
+  "keywords": ["pagerduty", "incidents", "oncall", "mcp", "incident-management", "observability"],
+  "category": "developer-tools",
+  "tags": ["incident-management", "oncall", "mcp", "observability", "sre"],
+  "mcpServers": "mcp.json"
 }
