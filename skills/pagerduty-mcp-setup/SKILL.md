@@ -23,11 +23,6 @@ The PagerDuty-hosted MCP service expects the header to look like this:
 
 If this has not been customized for the user, you should not do anything except tell the user that the PagerDuty MCP is not configured yet and help them finish setup.
 
-Unlike the Datadog setup flow, you should give the user both options:
-
-- Offer to update `mcp.json` for them if they provide the token.
-- Also cite `mcp.json` so they can add the token themselves if they prefer.
-
 Do not continue investigating PagerDuty or checking PagerDuty MCP tool schemas until the token is configured.
 
 ### Steps
@@ -38,9 +33,9 @@ Before continuing, take the following steps:
 2. If the file still contains `Token ${PAGERDUTY_API_TOKEN}` or `${PAGERDUTY_API_TOKEN}`, stop immediately. Tell the user the PagerDuty MCP is not configured yet.
 3. In that message, do all of the following:
    - Cite `mcp.json` so the user can open the file and edit it themselves.
-   - Show the exact value format they need: `Authorization: Token <their PagerDuty User API token>`.
-   - Offer to update the file for them if they send you the token.
-   - Tell them the token should be a PagerDuty User API token.
+   - Include a JSON code block with the current `mcp.json` config so they can copy it directly.
+   - Tell them to replace `${PAGERDUTY_API_TOKEN}` with their PagerDuty User API token, keeping the `Token ` prefix in the Authorization header.
+   - Do not ask them to send you the token.
    - Do not inspect PagerDuty MCP tools or continue the PagerDuty task yet.
 4. Once the token has been added to `mcp.json`, tell the user to refresh Cursor by opening the Command Palette (`⌘⇧P` on Mac or `Ctrl+Shift+P` on Windows/Linux) and running `Reload Window`. Use the current operating system to decide what keybinding to show.
 5. Continue on to using the PagerDuty MCP.
@@ -49,3 +44,19 @@ Before continuing, take the following steps:
 
 - PagerDuty hosted MCP setup guide: `https://support.pagerduty.com/main/docs/pagerduty-mcp-server-integration-guide`
 - PagerDuty developer docs: `https://developer.pagerduty.com/docs/mcp-tooling-remote-server`
+
+### Example code block to show the user
+
+When prompting the user to configure the token, include this exact current config:
+
+```json
+{
+  "pagerduty-mcp": {
+    "headers": {
+      "Authorization": "Token ${PAGERDUTY_API_TOKEN}"
+    },
+    "type": "streamable-http",
+    "url": "https://mcp.pagerduty.com/mcp"
+  }
+}
+```
