@@ -32,9 +32,10 @@ Before continuing, take the following steps:
 1. Read the `mcp.json` file in the plugin directory. This is in the grandparent directory relative to this SKILL.md file (`../../mcp.json`).
 2. If the file still contains `Token ${PAGERDUTY_API_TOKEN}` or `${PAGERDUTY_API_TOKEN}`, stop immediately. Tell the user the PagerDuty MCP is not configured yet.
 3. In that message, do all of the following:
-   - Cite `mcp.json` so the user can open the file and edit it themselves.
+   - Cite `mcp.json` and specifically point to the `headers.Authorization` lines in that file so the user knows exactly what to edit.
    - Include a JSON code block with the current `mcp.json` config so they can copy it directly.
    - Tell them to replace `${PAGERDUTY_API_TOKEN}` with their PagerDuty User API token, keeping the `Token ` prefix in the Authorization header.
+   - Tell them they can follow PagerDuty's API token instructions here: `https://support.pagerduty.com/main/docs/pagerduty-mcp-server-integration-guide#generate-your-pagerduty-api-token`
    - Do not ask them to send you the token.
    - Do not inspect PagerDuty MCP tools or continue the PagerDuty task yet.
 4. Once the token has been added to `mcp.json`, tell the user to refresh Cursor by opening the Command Palette (`⌘⇧P` on Mac or `Ctrl+Shift+P` on Windows/Linux) and running `Reload Window`. Use the current operating system to decide what keybinding to show.
@@ -42,6 +43,7 @@ Before continuing, take the following steps:
 
 ### Reference
 
+- PagerDuty API token setup instructions: `https://support.pagerduty.com/main/docs/pagerduty-mcp-server-integration-guide#generate-your-pagerduty-api-token`
 - PagerDuty hosted MCP setup guide: `https://support.pagerduty.com/main/docs/pagerduty-mcp-server-integration-guide`
 - PagerDuty developer docs: `https://developer.pagerduty.com/docs/mcp-tooling-remote-server`
 
@@ -59,4 +61,12 @@ When prompting the user to configure the token, include this exact current confi
     "url": "https://mcp.pagerduty.com/mcp"
   }
 }
+```
+
+When possible, also include a short code reference to the relevant header lines, for example:
+
+```3:5:mcp.json
+    "headers": {
+      "Authorization": "Token ${PAGERDUTY_API_TOKEN}"
+    },
 ```
