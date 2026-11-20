@@ -1,14 +1,14 @@
 {
   "name": "pagerduty",
   "displayName": "PagerDuty",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "PagerDuty MCP server for Cursor - manage incidents, services, schedules, on-call, and more directly from your IDE.",
   "author": {
     "name": "PagerDuty",
     "email": "dev-platform@pagerduty.com"
   },
   "publisher": "PagerDuty",
-  "homepage": "https://developer.pagerduty.com/docs/mcp-tooling-remote-server",
+  "homepage": "https://docs.pagerduty.com/ai-automation/advance/pagerduty-mcp-server",
   "repository": "https://github.com/PagerDuty/cursor-plugin",
   "license": "Apache-2.0",
   "logo": "logo.svg",
@@ -18,14 +18,19 @@
   "variables": {
     "type": "object",
     "properties": {
-      "PAGERDUTY_API_TOKEN": {
+      "PAGERDUTY_OAUTH_CLIENT_ID": {
         "type": "string",
-        "title": "PagerDuty API Token",
-        "description": "User API token from https://support.pagerduty.com/main/docs/pagerduty-mcp-server-integration-guide#generate-your-pagerduty-api-token. Only the token value is needed; the Authorization header already includes the `Token ` prefix.",
+        "title": "PagerDuty OAuth Client ID",
+        "description": "Client ID of the OAuth app you registered in PagerDuty for Cursor. See https://docs.pagerduty.com/ai-automation/advance/pagerduty-mcp-server#step-1-choose-an-authorization-method"
+      },
+      "PAGERDUTY_OAUTH_CLIENT_SECRET": {
+        "type": "string",
+        "title": "PagerDuty OAuth Client Secret",
+        "description": "Client secret of the same PagerDuty OAuth app. See https://docs.pagerduty.com/ai-automation/advance/pagerduty-mcp-server#step-1-choose-an-authorization-method",
         "writeOnly": true
       }
     },
-    "required": ["PAGERDUTY_API_TOKEN"]
+    "required": ["PAGERDUTY_OAUTH_CLIENT_ID", "PAGERDUTY_OAUTH_CLIENT_SECRET"]
   },
   "mcpServers": "mcp.json"
 }
