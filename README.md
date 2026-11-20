@@ -28,6 +28,7 @@ This plugin connects Cursor to PagerDuty's hosted MCP server at `https://mcp.pag
 | Skill | Description |
 |-------|-------------|
 | `pagerduty-mcp-setup` | Walks you through registering a PagerDuty OAuth app and connecting the MCP server. |
+| `/pre-commit-risk-scoring [--branch] [service-name]` | Scores the risk (0–5) of your uncommitted changes, or of your whole branch with `--branch`, by correlating them with the PagerDuty service's active incidents, 90-day incident history, and change events. The service is resolved from the argument, a cached `.pagerduty/pagerduty-risk-config.json`, the `pagerduty.com/service-id` annotation in `catalog-info.yaml`, or the repository name. |
 
 ## Support
 
