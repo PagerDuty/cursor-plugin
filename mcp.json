@@ -1,9 +1,9 @@
 {
   "pagerduty-mcp": {
-    "headers": {
-      "Authorization": "Token ${PAGERDUTY_API_TOKEN}"
-    },
-    "type": "streamable-http",
-    "url": "https://mcp.pagerduty.com/mcp"
+    "url": "https://mcp.pagerduty.com/mcp",
+    "auth": {
+      "CLIENT_ID": "${PAGERDUTY_OAUTH_CLIENT_ID}",
+      "CLIENT_SECRET": "${PAGERDUTY_OAUTH_CLIENT_SECRET}"
+    }
   }
 }

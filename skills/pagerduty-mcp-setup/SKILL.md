@@ -1,58 +1,26 @@
 ---
 name: pagerduty-mcp-setup
-description: REQUIRED setup for how to use the PagerDuty MCP server. IMPORTANT If you want to use PagerDuty MCP tools, read these instructions BEFORE checking tool schemas or doing any PagerDuty investigation because the MCP may not work until the API token is configured.
+description: Setup and troubleshooting for the PagerDuty MCP server in Cursor. Use when PagerDuty MCP tools are unavailable, the server shows "Needs login" or an OAuth error, or the user asks how to connect PagerDuty to Cursor.
 ---
 
-IMPORTANT: Before using the PagerDuty MCP or doing any other investigation related to PagerDuty, you must follow these directions and make sure that the following requirements are met.
+The PagerDuty plugin connects to PagerDuty's hosted MCP server (`../../mcp.json`) using OAuth with a PagerDuty OAuth app that the user (or their admin) registers. The plugin does not contain any credentials, and the agent must never ask the user to paste a client secret into chat.
 
-### Context
+If PagerDuty MCP tools are available and respond, skip this skill and continue the task.
 
-The configuration for the MCP of the PagerDuty Plugin lives in the following directory relative to the path to this SKILL.md file: `../../mcp.json`
+### Setup steps to give the user
 
-In a non-configured state, the Authorization header contains the placeholder `Token ${PAGERDUTY_API_TOKEN}`.
+1. Register an OAuth app in PagerDuty, following https://docs.pagerduty.com/ai-automation/advance/pagerduty-mcp-server#step-1-choose-an-authorization-method
+2. Add the redirect URL(s) for the surfaces you authenticate from:
+   - `http://localhost:8787/callback` (Cursor desktop)
+   - `https://www.cursor.com/agents/mcp/oauth/callback` (Cursor web and Cursor Agents)
+3. In Cursor, open **Plugins → PagerDuty → Configure** and enter the app's Client ID and Client Secret.
+4. Reload Cursor: Command Palette (`⌘⇧P` on Mac, `Ctrl+Shift+P` on Windows/Linux), then `Reload Window`. Use the current OS to pick the keybinding.
+5. In Cursor's MCP settings, click **Connect** / **Login** on the PagerDuty server and approve access in the browser.
 
-IMPORTANT: Before using the PagerDuty MCP you MUST ensure that this placeholder has been replaced with a real PagerDuty User API token.
+### Troubleshooting
 
-The PagerDuty-hosted MCP service expects the header to look like this:
-
-```json
-{
-  "Authorization": "Token your-pagerduty-api-token-here"
-}
-```
-
-If this has not been customized for the user, you should not do anything except tell the user that the PagerDuty MCP is not configured yet and help them finish setup.
-
-Do not continue investigating PagerDuty or checking PagerDuty MCP tool schemas until the token is configured.
-
-### Steps
-
-Before continuing, take the following steps:
-
-1. Read the `mcp.json` file in the plugin directory. This is in the grandparent directory relative to this SKILL.md file (`../../mcp.json`).
-2. If the file still contains `Token ${PAGERDUTY_API_TOKEN}` or `${PAGERDUTY_API_TOKEN}`, stop immediately. Tell the user the PagerDuty MCP is not configured yet.
-3. In that message, do all of the following:
-   - Cite `mcp.json` and specifically point to the `headers.Authorization` lines in that file so the user knows exactly what to edit.
-   - Include a JSON code block with the current `mcp.json` config so they can copy it directly.
-   - Tell them to replace `${PAGERDUTY_API_TOKEN}` with their PagerDuty User API token, keeping the `Token ` prefix in the Authorization header.
-   - Tell them they can follow PagerDuty's API token instructions here: `https://support.pagerduty.com/main/docs/pagerduty-mcp-server-integration-guide#generate-your-pagerduty-api-token`
-   - Do not ask them to send you the token.
-   - Do not inspect PagerDuty MCP tools or continue the PagerDuty task yet.
-4. Once the token has been added to `mcp.json`, tell the user to refresh Cursor by opening the Command Palette (`⌘⇧P` on Mac or `Ctrl+Shift+P` on Windows/Linux) and running `Reload Window`. Use the current operating system to decide what keybinding to show.
-5. Continue on to using the PagerDuty MCP.
-
-### Reference
-
-- PagerDuty API token setup instructions: `https://support.pagerduty.com/main/docs/pagerduty-mcp-server-integration-guide#generate-your-pagerduty-api-token`
-- PagerDuty hosted MCP setup guide: `https://support.pagerduty.com/main/docs/pagerduty-mcp-server-integration-guide`
-- PagerDuty developer docs: `https://developer.pagerduty.com/docs/mcp-tooling-remote-server`
-
-### Example code block to show the user
-
-When prompting the user to configure the token, include a reference to the header section like so:
-
-```3:5:mcp.json
-    "headers": {
-      "Authorization": "Token ${PAGERDUTY_API_TOKEN}"
-    },
-```
+- **No sign-in prompt, or sign-in fails immediately:** the Client ID or Secret was not entered in Plugins → Configure, or was mistyped.
+- **Redirect URI mismatch:** the redirect URL Cursor used is not registered on the OAuth app. Add the redirect URL for the surface you authenticate from. Cursor web and Cursor Agents use the `https://www.cursor.com/...` callback.
+- **Signed in, but tools fail with permission errors:** the PagerDuty user or app lacks access to the requested resources.
+- **PagerDuty tools missing, or the wrong server responds:** another PagerDuty plugin or MCP server is installed (for example the Claude Code PagerDuty plugin imported into Cursor, or a PagerDuty server in ~/.cursor/mcp.json). Disable it in Customize and reload Cursor.
+- For anything else, see https://docs.pagerduty.com/ai-automation/advance/pagerduty-mcp-server#step-1-choose-an-authorization-method
